@@ -672,40 +672,6 @@ namespace SS
             s.SetContentsOfCell("Z3", "=" + (string)null);
         }
 
-        [TestMethod]
-        public void createAndTestXml()
-        {
-            using (XmlWriter writer = XmlWriter.Create("save.txt")) // NOTICE the file with no path
-            {
-                writer.WriteStartDocument();
-                writer.WriteStartElement("spreadsheet");
-                writer.WriteAttributeString("version", "1");
-
-                writer.WriteStartElement("cell");
-                writer.WriteElementString("name", "A1");
-                writer.WriteElementString("contents", "hello");
-                writer.WriteEndElement();
-
-                writer.WriteStartElement("cell");
-                writer.WriteElementString("name", "A99");
-                writer.WriteElementString("contents", "=34*32");
-                writer.WriteEndElement();
-
-                writer.WriteEndElement();
-                writer.WriteEndDocument();
-            }
-
-            AbstractSpreadsheet s = new Spreadsheet("save.txt", s => true, n => n, "");
-            Assert.AreEqual("1", s.GetSavedVersion("save.txt"));
-            Assert.AreEqual("hello", s.GetCellContents("A1"));
-
-            s.SetContentsOfCell("A1", "=5+7");
-            s.SetContentsOfCell("b3", "hi");
-            Assert.AreEqual(true, s.Changed);
-            s.Save("save.txt");
-            Assert.AreEqual(false, s.Changed);
-
-        }
 
         [TestMethod]
         [ExpectedException(typeof(SpreadsheetReadWriteException))]
